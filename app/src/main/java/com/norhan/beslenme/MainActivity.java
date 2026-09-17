@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
 
     // === Sayfanız güncellenince burayı değiştirmenize gerek yok. ===
     // === Bu URL'yi kendi GitHub Pages adresinizle değiştirin.   ===
-    private static final String SITE_URL = "https://KULLANICI_ADIN.github.io/REPO_ADIN/";
+    private static final String SITE_URL = "https://mevafeyzasavas-byte.github.io/bfdp/";
 
     private WebView webView;
     private SwipeRefreshLayout swipeRefreshLayout;
