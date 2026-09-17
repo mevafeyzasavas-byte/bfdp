@@ -17,7 +17,6 @@ android {
     buildTypes {
         release {
             minifyEnabled false
-            // İmzasız (unsigned) release APK üretir; debug APK doğrudan kurulabilir.
         }
     }
 
@@ -25,6 +24,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+}
+
+configurations.all {
+    exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk7'
+    exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk8'
 }
 
 dependencies {
