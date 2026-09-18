@@ -1,620 +1,524 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beslenme ve Ders Programı</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary-color: #02999c;
-            --secondary-color: #2eaccc;
-            --background-color: #f8f9fa;
-            --text-color: #333;
-            --border-radius: 14px;
-        }
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            font-family: 'Roboto', sans-serif;
-            line-height: 1.6;
-            color: var(--text-color);
-            background-color: var(--background-color);
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .buttons {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
-        }
-        .buttons button {
-            padding: 12px 24px;
-            border: none;
-            border-radius: var(--border-radius);
-            background-color: var(--primary-color);
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-size: 18px;
-        }
-        #nutrition-btn {
-            background-color: #036599;
-        }
-        #schedule-btn {
-            background-color: #029ba6;
-        }
-        .buttons button:hover {
-            opacity: 0.8;
-        }
-        #nutrition-btn:hover {
-            background-color:#02a3fa;
-        }
-        #schedule-btn:hover {
-            background-color: #063236;
-        }
-        .day.nutrition h3 {
-            background-color: #036599;
-            color: white;
-        }
-        .day.nutrition h3:hover {
-            background-color: #02a3fa;
-        }
-        .day.schedule h3 {
-            background-color: #029ba6;
-            color: white;
-        }
-        .day.schedule h3:hover {
-            background-color: #063236;
-        }
-        .buttons button.active {
-            outline: 3px solid #333;
-        }
-        .section {
-            display: none;
-            background-color: white;
-            border-radius: var(--border-radius);
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        .day {
-            border-bottom: 1px solid #e0e0e0;
-        }
-        .day:last-child {
-            border-bottom: none;
-        }
-        .day h3 {
-            padding: 20px;
-            background-color: var(--primary-color);
-            color: white;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
-            font-size: 22px;
-        }
-        .day h3:hover {
-            background-color: #014e4f;
-        }
-        .day-content {
-            display: none;
-            padding: 20px;
-            font-size: 20px;
-        }
-        .lesson {
-            margin-bottom: 15px;
-        }
-        .lesson-title {
-            font-weight: bold;
-            color: var(--secondary-color);
-            font-size: 28px;
-        }
-        .lesson-content {
-            margin-left: 20px;
-            font-size: 20px;
-        }
-        @media (max-width: 600px) {
-            .container {
-                padding: 10px;
-            }
-            .buttons button {
-                font-size: 16px;
-                padding: 10px 20px;
-            }
-            .day h3 {
-                font-size: 20px;
-            }
-            .day-content {
-                font-size: 20px;
-            }
-            .lesson-title, .lesson-content {
-                font-size: 20px;
-            }
-        }
-        #edit-modal {
-            width: 80%;
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 1000;
-        }
-        #feyza-edit-input {
-            width: 100%;
-            height: 200px;
-            font-size: 16px;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-        .edit-btn {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        #overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.5);
-            z-index: 999;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ders Programı</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #f4f7fb;
+    --card: #ffffff;
+    --border: #e6eaf0;
+    --text: #1e2938;
+    --text-muted: #6b7688;
+    --primary: #2563eb;
+    --primary-light: #eaf1ff;
+    --accent: #0d9488;
+    --accent-light: #e6f7f5;
+    --break: #f59e0b;
+    --break-light: #fef4e2;
+    --radius-lg: 20px;
+    --radius-md: 14px;
+    --radius-sm: 10px;
+    --shadow: 0 1px 2px rgba(20,30,50,.04), 0 8px 24px -8px rgba(20,30,50,.10);
+  }
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  body{
+    font-family:'Inter', system-ui, -apple-system, sans-serif;
+    background:var(--bg);
+    color:var(--text);
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:40px;
+  }
+  .page{
+    max-width:760px;
+    margin:0 auto;
+    padding:24px 16px 8px;
+  }
+
+  .view-switch{
+    display:flex;
+    gap:8px;
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:999px;
+    padding:5px;
+    margin:0 0 20px;
+    box-shadow:var(--shadow);
+  }
+  .view-switch button{
+    flex:1;
+    min-width:0;
+    border:none;
+    background:transparent;
+    padding:12px 6px;
+    border-radius:999px;
+    font-family:inherit;
+    font-size:13px;
+    font-weight:700;
+    letter-spacing:.01em;
+    color:var(--text-muted);
+    cursor:pointer;
+    transition:all .15s ease;
+    -webkit-tap-highlight-color:transparent;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .view-switch button.active{
+    background:var(--primary);
+    color:#fff;
+    box-shadow:0 3px 8px rgba(37,99,235,.28);
+  }
+
+  .days{ display:flex; flex-direction:column; gap:14px; }
+  body.view-tatil .days{ display:none; }
+
+  .holidays{ display:none; flex-direction:column; gap:14px; }
+  body.view-tatil .holidays{ display:flex; }
+
+  .holiday-card{
+    padding:10px 2px;
+    border-bottom:1px solid var(--border);
+  }
+  .holiday-card:last-child{ border-bottom:none; }
+  .holiday-name{
+    font-weight:600;
+    font-size:14px;
+    color:var(--text);
+  }
+  .holiday-date{
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--accent);
+    margin-top:2px;
+  }
+  .holiday-duration{
+    font-size:12.5px;
+    color:var(--text-muted);
+    margin-top:2px;
+  }
+  .holiday-note{
+    font-size:12px;
+    color:var(--text-muted);
+    text-align:center;
+    padding:4px 10px 0;
+  }
+
+  details.day-card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:var(--radius-lg);
+    box-shadow:var(--shadow);
+    overflow:hidden;
+  }
+  details.day-card > summary{
+    list-style:none;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 20px;
+    font-size:17px;
+    font-weight:700;
+    user-select:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+  details.day-card > summary::-webkit-details-marker{ display:none; }
+  details.day-card > summary::after{
+    content:"";
+    width:10px; height:10px;
+    border-right:2px solid var(--text-muted);
+    border-bottom:2px solid var(--text-muted);
+    transform:rotate(45deg);
+    transition:transform .2s ease;
+    flex-shrink:0;
+    margin-left:12px;
+  }
+  details.day-card[open] > summary::after{ transform:rotate(-135deg); }
+  details.day-card[open] > summary{ border-bottom:1px solid var(--border); }
+
+  .day-content{ padding:16px 16px 20px; }
+
+  .panel{ display:none; padding:0 4px; }
+  .panel.beyza{ display:block; }
+  body.view-feyza .panel.beyza{ display:none; }
+  body.view-feyza .panel.feyza{ display:block; }
+
+  .lesson-row{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    padding:11px 6px;
+    border-bottom:1px solid var(--border);
+  }
+  .lesson-row:last-child{ border-bottom:none; }
+  .lesson-num{
+    flex-shrink:0;
+    width:26px; height:26px;
+    border-radius:50%;
+    background:var(--primary-light);
+    color:var(--primary);
+    font-size:12.5px;
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin-top:2px;
+  }
+  .lesson-info{ flex:1; min-width:0; }
+  .lesson-line{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+    font-size:14px;
+  }
+  .lesson-name{
+    flex:1 1 auto;
+    min-width:0;
+    font-weight:600;
+    font-size:14px;
+    color:var(--text);
+    overflow-wrap:break-word;
+  }
+  .lesson-time{
+    flex:0 0 auto;
+    margin-left:auto;
+    white-space:nowrap;
+    text-align:right;
+    font-weight:500;
+    font-size:14px;
+    color:var(--accent);
+  }
+  .lesson-teacher{
+    margin-top:3px;
+    font-size:14px;
+    color:var(--text-muted);
+  }
+
+  .badge-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin:10px 6px;
+    padding:10px 14px;
+    border-radius:var(--radius-sm);
+    background:var(--break-light);
+    color:#8a5a06;
+    font-size:13.5px;
+    font-weight:600;
+  }
+  .badge-row.exit{
+    background:var(--accent-light);
+    color:#0d6d63;
+  }
+  .badge-dot{
+    width:8px; height:8px;
+    border-radius:50%;
+    background:var(--break);
+    flex-shrink:0;
+  }
+  .badge-row.exit .badge-dot{ background:var(--accent); }
+
+  .feyza-list{ padding:2px 6px; }
+  .feyza-list .lesson-row{ padding:12px 0; }
+
+  @media (min-width: 640px){
+    .page{ padding:32px 24px 8px; }
+    details.day-card > summary{ padding:20px 24px; font-size:18px; }
+    .day-content{ padding:18px 20px 24px; }
+    .view-switch{ max-width:320px; margin:0 auto 24px; }
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="buttons">
-            <button id="nutrition-btn">Beslenme</button>
-            <button id="schedule-btn">Ders Programı</button>
-        </div>
-        
-        <div id="nutrition-section" style="display:none;">
-            <div class="day nutrition">
-                <h3>Pazartesi</h3>
-                <div class="day-content">
-                    <div class="lesson">
-                        <div class="lesson-title">Feyza:</div>
-                        <div class="lesson-content" data-day="Pazartesi" id="feyza-content">
-05.05.2025:<br>
-Hamur İşi - Ayran - Meyve <br><br>
-12.05.2025:<br>
-Bisküvili Pasta/Muhallebi/Puding - İçecek - Meyve<br><br>
-19.05.2025:<br>
--<br><br>
-26.05.2025:<br>
-Börek - Ayran - Meyve<br><br>
-</div>
-                    </div>                                        
-                </div>
-            </div>
-            <div class="day nutrition">
-                <h3>Salı</h3>
-                <div class="day-content">
-                    <div class="lesson">
-                        <div class="lesson-title">Feyza:</div>
-                        <div class="lesson-content" data-day="Salı" id="feyza-content">
-06.05.2025:<br>
-Sebzeli Omlet/Menemen - Ekmek - İçecek - Çerez<br><br>
-13.05.2025:<br>
-Patates Günü - İçecek - Meyveli/Sade Yoğurt<br><br>
-20.05.2025:<br>
-Kahvaltılık - İçecek - Ceviz<br><br>
-27.05.2025:<br>
-Tost/Sandviç - İçecek - Bisküvi<br><br>
-</div>
-                    </div>
-                </div>
-            </div>
-            <div class="day nutrition">
-                <h3>Çarşamba</h3>
-                <div class="day-content">
-                    <div class="lesson">
-                        <div class="lesson-title">Feyza:</div>
-                        <div class="lesson-content" data-day="Çarsamba" id="feyza-content">
-07.05.2025:<br>
-Çorba - Ekmek - Meyve<br><br>
-14.05.2025:<br>
-Tost / Sandviç - Ayran / Süt - Meyve<br><br>
-21.05.2025:<br>
-Ekmek Arası Et - İçecek - Meyve<br><br>
-28.05.2025:<br>
-Kahvaltılık Gevrek - Süt - Meyve<br><br>
-</div>
-                    </div>
-                </div>
-            </div>
-            <div class="day nutrition">
-                <h3>Perşembe</h3>
-                <div class="day-content">
-                    <div class="lesson">
-                        <div class="lesson-title">Feyza:</div>
-                        <div class="lesson-content" data-day="Perşembe" id="feyza-content">
-08.05.2025:<br>
-Simit / Zeytin - İçecek - İkram (Ali Demirkesen)<br><br>
-15.05.2025:<br>
-Yumurtalı Ekmek - İçecek - İkram (Ali Özcan)<br><br>
-22.05.2025:<br>
-Simit / Zeytin - Ayran / Süt - İkram (Betül Bal)<br><br>
-29.05.2025:<br>
-Karışık Sebze - Ekmek - İçecek - İkram (Abdullah Nahsan)<br><br>
-</div>
-                    </div>
-                </div>
-            </div>
-            <div class="day nutrition">
-                <h3>Cuma</h3>
-                <div class="day-content">
-                    <div class="lesson">
-                        <div class="lesson-title">Feyza:</div>
-                        <div class="lesson-content" data-day="Cuma" id="feyza-content">
-09.05.2025:<br>
-Doğum Günü (Açelya Atcı) <br><br>
-16.05.2025:<br>
-Doğum Günü (Alper Çevik) <br><br>
-23.05.2025:<br>
-Doğum Günü (Elif Çınar)<br><br>
-30.05.2025:<br>
-Krep/Pankek - İçecek - Meyve<br><br>
-</div>
-                    </div>
-                </div>
-            </div>
-        </div>
+  <div class="page">
+    <div class="view-switch">
+      <button type="button" class="active" data-view="beyza">BEYZA</button>
+      <button type="button" data-view="feyza">FEYZA</button>
+      <button type="button" data-view="tatil">TATİLLER</button>
+    </div>
 
-        <div id="schedule-section" style="display:none;">
-    <!-- Pazartesi -->
-    <div class="day schedule">
-        <h3>Pazartesi</h3>
+    <div class="days">
+
+      <!-- Pazartesi -->
+      <details class="day-card">
+        <summary>Pazartesi</summary>
         <div class="day-content">
-<div class="lesson">
-    <div class="lesson-title">Beyza:</div>
-    <div class="lesson-content">
-        <div class="lesson"><span>1. Ders: 8:40 - 9:20 - Temel Dini Bilgiler - Mehmet Ali İyiyolbulan</span></div>
-        <div class="lesson"><span>2. Ders: 9:35 - 10:15 - Sosyal Bilgiler - Güllüzar Ayçiçek</span></div>
-        <div class="lesson"><span>3. Ders: 10:30 - 11:10 - Rehberlik - Fadimana Topak</span></div>
-        <div class="lesson"><span>4. Ders: 11:25 - 12:05 - Din Kültürü - Tuğba Kayserli</span></div>
-        <div class="lesson"><span>5. Ders: 12:20 - 13:00 - Din Kültürü - Tuğba Kayserli</span></div>
-				        <div class="lesson"><span><strong>Öğlen Arası: 40 Dakika</strong></span></div>
-
-        <div class="lesson"><span>6. Ders: 13:40 - 14:20 - Kur'an-ı Kerim - Havva Yavaş</span></div>
-        <div class="lesson"><span>7. Ders: 14:30 - 15:10 - Kur'an-ı Kerim - Havva Yavaş</span></div>
-        <div class="lesson"><span><strong>Çıkış: 15:10</strong></span></div>
-    </div>
-</div>
-            <div class="lesson">
-                <div class="lesson-title">Feyza:</div>
-                <div class="lesson-content" data-day="Pazartesi-Schedule">
-                    <div class="lesson">
-                        <span>1. Ders: <span class="time">Matematik</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>2. Ders: <span class="time">Türkçe</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>3. Ders: <span class="time">Fen Bilimleri</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>4. Ders: <span class="time">Sosyal Bilgiler</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>5. Ders: <span class="time">İngilizce</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>6. Ders: <span class="time">Beden Eğitimi</span></span>
-                    </div>
-                </div>
+          <div class="panel beyza">
+            <div class="lesson-row"><div class="lesson-num">1</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Temel Dini Bilgiler</span><span class="lesson-time">8:40 - 9:20</span></div><div class="lesson-teacher">Mehmet Ali İyiyolbulan</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">2</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Sosyal Bilgiler</span><span class="lesson-time">9:35 - 10:15</span></div><div class="lesson-teacher">Güllüzar Ayçiçek</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">3</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Rehberlik</span><span class="lesson-time">10:30 - 11:10</span></div><div class="lesson-teacher">Fadimana Topak</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">4</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Din Kültürü</span><span class="lesson-time">11:25 - 12:05</span></div><div class="lesson-teacher">Tuğba Kayserli</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">5</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Din Kültürü</span><span class="lesson-time">12:20 - 13:00</span></div><div class="lesson-teacher">Tuğba Kayserli</div></div></div>
+            <div class="badge-row"><span class="badge-dot"></span>Öğlen Arası: 40 Dakika</div>
+            <div class="lesson-row"><div class="lesson-num">6</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Kur'an-ı Kerim</span><span class="lesson-time">13:40 - 14:20</span></div><div class="lesson-teacher">Havva Yavaş</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">7</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Kur'an-ı Kerim</span><span class="lesson-time">14:30 - 15:10</span></div><div class="lesson-teacher">Havva Yavaş</div></div></div>
+            <div class="badge-row exit"><span class="badge-dot"></span>Çıkış: 15:10</div>
+          </div>
+          <div class="panel feyza">
+            <div class="feyza-list">
+              <div class="lesson-row"><div class="lesson-num">1</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Matematik</span><span class="lesson-time">12:40 - 13:20</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">2</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Türkçe</span><span class="lesson-time">13:30 - 14:10</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">3</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Fen Bilimleri</span><span class="lesson-time">14:20 - 15:00</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">4</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Sosyal Bilgiler</span><span class="lesson-time">15:10 - 15:50</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">5</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">İngilizce</span><span class="lesson-time">16:00 - 16:40</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">6</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Beden Eğitimi</span><span class="lesson-time">16:50 - 17:30</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
             </div>
-        </div>
-    </div>
+            <div class="badge-row exit"><span class="badge-dot"></span>Çıkış: 17:30</div>
+          </div>
 
-    <!-- Salı -->
-    <div class="day schedule">
-        <h3>Salı</h3>
+        </div>
+      </details>
+
+      <!-- Salı -->
+      <details class="day-card">
+        <summary>Salı</summary>
         <div class="day-content">
-<div class="lesson">
-    <div class="lesson-title">Beyza:</div>
-    <div class="lesson-content">
-        <div class="lesson"><span>1. Ders: 8:40 - 9:20 - Matematik - Hasan Ali Koç</span></div>
-        <div class="lesson"><span>2. Ders: 9:35 - 10:15 - Matematik - Hasan Ali Koç</span></div>
-        <div class="lesson"><span>3. Ders: 10:30 - 11:10 - Yabancı Dil - Reyhan İriş</span></div>
-        <div class="lesson"><span>4. Ders: 11:25 - 12:05 - Sosyal Bilgiler - Güllüzar Ayçiçek</span></div>
-        <div class="lesson"><span>5. Ders: 12:20 - 13:00 - Beden Eğitimi - Derya Çeçean</span></div>
-				        <div class="lesson"><span><strong>Öğlen Arası: 40 Dakika</strong></span></div>
-
-        <div class="lesson"><span>6. Ders: 13:40 - 14:20 - Türkçe - Fadimana Topak</span></div>
-        <div class="lesson"><span>7. Ders: 14:30 - 15:10 - Türkçe - Fadimana Topak</span></div>
-        <div class="lesson"><span><strong>Çıkış: 15:10</strong></span></div>
-    </div>
-</div>
-            <div class="lesson">
-                <div class="lesson-title">Feyza:</div>
-                <div class="lesson-content" data-day="Salı-Schedule">
-                    <div class="lesson">
-                        <span>1. Ders: <span class="time">Türkçe</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>2. Ders: <span class="time">Matematik</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>3. Ders: <span class="time">Sosyal Bilgiler</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>4. Ders: <span class="time">Fen Bilimleri</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>5. Ders: <span class="time">Görsel Sanatlar</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>6. Ders: <span class="time">Müzik</span></span>
-                    </div>
-                </div>
+          <div class="panel beyza">
+            <div class="lesson-row"><div class="lesson-num">1</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Matematik</span><span class="lesson-time">8:40 - 9:20</span></div><div class="lesson-teacher">Hasan Ali Koç</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">2</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Matematik</span><span class="lesson-time">9:35 - 10:15</span></div><div class="lesson-teacher">Hasan Ali Koç</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">3</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Yabancı Dil</span><span class="lesson-time">10:30 - 11:10</span></div><div class="lesson-teacher">Reyhan İriş</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">4</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Sosyal Bilgiler</span><span class="lesson-time">11:25 - 12:05</span></div><div class="lesson-teacher">Güllüzar Ayçiçek</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">5</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Beden Eğitimi</span><span class="lesson-time">12:20 - 13:00</span></div><div class="lesson-teacher">Derya Çeçean</div></div></div>
+            <div class="badge-row"><span class="badge-dot"></span>Öğlen Arası: 40 Dakika</div>
+            <div class="lesson-row"><div class="lesson-num">6</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Türkçe</span><span class="lesson-time">13:40 - 14:20</span></div><div class="lesson-teacher">Fadimana Topak</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">7</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Türkçe</span><span class="lesson-time">14:30 - 15:10</span></div><div class="lesson-teacher">Fadimana Topak</div></div></div>
+            <div class="badge-row exit"><span class="badge-dot"></span>Çıkış: 15:10</div>
+          </div>
+          <div class="panel feyza">
+            <div class="feyza-list">
+              <div class="lesson-row"><div class="lesson-num">1</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Türkçe</span><span class="lesson-time">12:40 - 13:20</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">2</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Matematik</span><span class="lesson-time">13:30 - 14:10</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">3</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Sosyal Bilgiler</span><span class="lesson-time">14:20 - 15:00</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">4</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Fen Bilimleri</span><span class="lesson-time">15:10 - 15:50</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">5</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Görsel Sanatlar</span><span class="lesson-time">16:00 - 16:40</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">6</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Müzik</span><span class="lesson-time">16:50 - 17:30</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
             </div>
-        </div>
-    </div>
+            <div class="badge-row exit"><span class="badge-dot"></span>Çıkış: 17:30</div>
+          </div>
 
-    <!-- Çarşamba -->
-    <div class="day schedule">
-        <h3>Çarşamba</h3>
+        </div>
+      </details>
+
+      <!-- Çarşamba -->
+      <details class="day-card">
+        <summary>Çarşamba</summary>
         <div class="day-content">
-<div class="lesson">
-    <div class="lesson-title">Beyza:</div>
-    <div class="lesson-content">
-        <div class="lesson"><span>1. Ders: 8:40 - 9:20 - Yabancı Dil - Reyhan İriş</span></div>
-        <div class="lesson"><span>2. Ders: 9:35 - 10:15 - Müzik - Çağatay Ö. Koyuncu</span></div>
-        <div class="lesson"><span>3. Ders: 10:30 - 11:10 - Bilişim Yaz. - Esra Tanur</span></div>
-        <div class="lesson"><span>4. Ders: 11:25 - 12:05 - Arapça - Habibe Öztürk</span></div>
-        <div class="lesson"><span>5. Ders: 12:20 - 13:00 - Arapça - Habibe Öztürk</span></div>
-				        <div class="lesson"><span><strong>Öğlen Arası: 40 Dakika</strong></span></div>
-
-        <div class="lesson"><span>6. Ders: 13:40 - 14:20 - Matematik - Hasan Ali Koç</span></div>
-        <div class="lesson"><span>7. Ders: 14:30 - 15:10 - Matematik - Hasan Ali Koç</span></div>
-        <div class="lesson"><span><strong>Çıkış: 15:10</strong></span></div>
-    </div>
-</div>
-            <div class="lesson">
-                <div class="lesson-title">Feyza:</div>
-                <div class="lesson-content" data-day="Çarşamba-Schedule">
-                    <div class="lesson">
-                        <span>1. Ders: <span class="time">Matematik</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>2. Ders: <span class="time">Fen Bilimleri</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>3. Ders: <span class="time">Türkçe</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>4. Ders: <span class="time">İngilizce</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>5. Ders: <span class="time">Din Kültürü</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>6. Ders: <span class="time">Sosyal Bilgiler</span></span>
-                    </div>
-                </div>
+          <div class="panel beyza">
+            <div class="lesson-row"><div class="lesson-num">1</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Yabancı Dil</span><span class="lesson-time">8:40 - 9:20</span></div><div class="lesson-teacher">Reyhan İriş</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">2</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Müzik</span><span class="lesson-time">9:35 - 10:15</span></div><div class="lesson-teacher">Çağatay Ö. Koyuncu</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">3</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Bilişim Teknolojileri ve Yazılım</span><span class="lesson-time">10:30 - 11:10</span></div><div class="lesson-teacher">Esra Tanur</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">4</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Arapça</span><span class="lesson-time">11:25 - 12:05</span></div><div class="lesson-teacher">Habibe Öztürk</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">5</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Arapça</span><span class="lesson-time">12:20 - 13:00</span></div><div class="lesson-teacher">Habibe Öztürk</div></div></div>
+            <div class="badge-row"><span class="badge-dot"></span>Öğlen Arası: 40 Dakika</div>
+            <div class="lesson-row"><div class="lesson-num">6</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Matematik</span><span class="lesson-time">13:40 - 14:20</span></div><div class="lesson-teacher">Hasan Ali Koç</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">7</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Matematik</span><span class="lesson-time">14:30 - 15:10</span></div><div class="lesson-teacher">Hasan Ali Koç</div></div></div>
+            <div class="badge-row exit"><span class="badge-dot"></span>Çıkış: 15:10</div>
+          </div>
+          <div class="panel feyza">
+            <div class="feyza-list">
+              <div class="lesson-row"><div class="lesson-num">1</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Matematik</span><span class="lesson-time">12:40 - 13:20</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">2</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Fen Bilimleri</span><span class="lesson-time">13:30 - 14:10</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">3</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Türkçe</span><span class="lesson-time">14:20 - 15:00</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">4</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">İngilizce</span><span class="lesson-time">15:10 - 15:50</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">5</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Din Kültürü</span><span class="lesson-time">16:00 - 16:40</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">6</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Sosyal Bilgiler</span><span class="lesson-time">16:50 - 17:30</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
             </div>
-        </div>
-    </div>
+            <div class="badge-row exit"><span class="badge-dot"></span>Çıkış: 17:30</div>
+          </div>
 
-    <!-- Perşembe -->
-    <div class="day schedule">
-        <h3>Perşembe</h3>
+        </div>
+      </details>
+
+      <!-- Perşembe -->
+      <details class="day-card">
+        <summary>Perşembe</summary>
         <div class="day-content">
-<div class="lesson">
-    <div class="lesson-title">Beyza:</div>
-    <div class="lesson-content">
-        <div class="lesson"><span>1. Ders: 8:40 - 9:20 - Peygamber Hay. - Hanife Şen</span></div>
-        <div class="lesson"><span>2. Ders: 9:35 - 10:15 - Peygamber Hay. - Hanife Şen</span></div>
-        <div class="lesson"><span>3. Ders: 10:30 - 11:10 - Matematik - Hasan Ali Koç</span></div>
-        <div class="lesson"><span>4. Ders: 11:25 - 12:05 - Türkçe - Fadimana Topak</span></div>
-        <div class="lesson"><span>5. Ders: 12:20 - 13:00 - Türkçe - Fadimana Topak</span></div>
-		        <div class="lesson"><span><strong>Öğlen Arası: 40 Dakika</strong></span></div>
-        <div class="lesson"><span>6. Ders: 13:40 - 14:20 - Fen Bilimleri - Aydan Akgül</span></div>
-        <div class="lesson"><span>7. Ders: 14:30 - 15:10 - Fen Bilimleri - Aydan Akgül</span></div>
-        <div class="lesson"><span><strong>Çıkış: 15:10</strong></span></div>
-    </div>
-</div>
-            <div class="lesson">
-                <div class="lesson-title">Feyza:</div>
-                <div class="lesson-content" data-day="Perşembe-Schedule">
-                    <div class="lesson">
-                        <span>1. Ders: <span class="time">Türkçe</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>2. Ders: <span class="time">Matematik</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>3. Ders: <span class="time">Fen Bilimleri</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>4. Ders: <span class="time">Beden Eğitimi</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>5. Ders: <span class="time">İnsan Hakları</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>6. Ders: <span class="time">Trafik Güvenliği</span></span>
-                    </div>
-                </div>
+          <div class="panel beyza">
+            <div class="lesson-row"><div class="lesson-num">1</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Peygamberimizin Hayatı</span><span class="lesson-time">8:40 - 9:20</span></div><div class="lesson-teacher">Hanife Şen</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">2</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Peygamberimizin Hayatı</span><span class="lesson-time">9:35 - 10:15</span></div><div class="lesson-teacher">Hanife Şen</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">3</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Matematik</span><span class="lesson-time">10:30 - 11:10</span></div><div class="lesson-teacher">Hasan Ali Koç</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">4</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Türkçe</span><span class="lesson-time">11:25 - 12:05</span></div><div class="lesson-teacher">Fadimana Topak</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">5</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Türkçe</span><span class="lesson-time">12:20 - 13:00</span></div><div class="lesson-teacher">Fadimana Topak</div></div></div>
+            <div class="badge-row"><span class="badge-dot"></span>Öğlen Arası: 40 Dakika</div>
+            <div class="lesson-row"><div class="lesson-num">6</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Fen Bilimleri</span><span class="lesson-time">13:40 - 14:20</span></div><div class="lesson-teacher">Aydan Akgül</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">7</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Fen Bilimleri</span><span class="lesson-time">14:30 - 15:10</span></div><div class="lesson-teacher">Aydan Akgül</div></div></div>
+            <div class="badge-row exit"><span class="badge-dot"></span>Çıkış: 15:10</div>
+          </div>
+          <div class="panel feyza">
+            <div class="feyza-list">
+              <div class="lesson-row"><div class="lesson-num">1</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Türkçe</span><span class="lesson-time">12:40 - 13:20</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">2</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Matematik</span><span class="lesson-time">13:30 - 14:10</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">3</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Fen Bilimleri</span><span class="lesson-time">14:20 - 15:00</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">4</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Beden Eğitimi</span><span class="lesson-time">15:10 - 15:50</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">5</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">İnsan Hakları</span><span class="lesson-time">16:00 - 16:40</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">6</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Trafik Güvenliği</span><span class="lesson-time">16:50 - 17:30</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
             </div>
-        </div>
-    </div>
+            <div class="badge-row exit"><span class="badge-dot"></span>Çıkış: 17:30</div>
+          </div>
 
-    <!-- Cuma -->
-    <div class="day schedule">
-        <h3>Cuma</h3>
+        </div>
+      </details>
+
+      <!-- Cuma -->
+      <details class="day-card">
+        <summary>Cuma</summary>
         <div class="day-content">
-<div class="lesson">
-    <div class="lesson-title">Beyza:</div>
-    <div class="lesson-content">
-        <div class="lesson"><span>1. Ders: 08:40 - 09:20 - Yabancı Dil - Reyhan İriş</span></div>
-        <div class="lesson"><span>2. Ders: 09:35 - 10:15 - Sosyal Bilgiler - Güllüzar Ayçiçek</span></div>
-        <div class="lesson"><span>3. Ders: 10:25 - 11:05 - Türkçe - Fadimana Topak</span></div>
-        <div class="lesson"><span>4. Ders: 11:15 - 11:55 - Türkçe - Fadimana Topak</span></div>
-        <div class="lesson"><span>5. Ders: 12:05 - 12:45 - Fen Bilimleri - Aydan Akgül</span></div>
-				        <div class="lesson"><span><strong>Öğlen Arası: 55 Dakika</strong></span></div>
-
-        <div class="lesson"><span>6. Ders: 13:40 - 14:20 - Fen Bilimleri - Aydan Akgül</span></div>
-        <div class="lesson"><span>7. Ders: 14:30 - 15:10 - Seç. Görgü Ku. - Adem Fesli</span></div>
-        <div class="lesson"><span>8. Ders: 15:20 - 16:00 - Gör. Sanat - </span></div>
-        <div class="lesson"><span><strong>Çıkış: 16:00</strong></span></div>
-    </div>
-</div>
-            <div class="lesson">
-                <div class="lesson-title">Feyza:</div>
-                <div class="lesson-content" data-day="Cuma-Schedule">
-                    <div class="lesson">
-                        <span>1. Ders: <span class="time">İngilizce</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>2. Ders: <span class="time">Matematik</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>3. Ders: <span class="time">Türkçe</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>4. Ders: <span class="time">Din Kültürü</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>5. Ders: <span class="time">Görsel Sanatlar</span></span>
-                    </div>
-                    <div class="lesson">
-                        <span>6. Ders: <span class="time">Müzik</span></span>
-                    </div>
-                </div>
+          <div class="panel beyza">
+            <div class="lesson-row"><div class="lesson-num">1</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Yabancı Dil</span><span class="lesson-time">08:40 - 09:20</span></div><div class="lesson-teacher">Reyhan İriş</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">2</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Sosyal Bilgiler</span><span class="lesson-time">09:35 - 10:15</span></div><div class="lesson-teacher">Güllüzar Ayçiçek</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">3</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Türkçe</span><span class="lesson-time">10:25 - 11:05</span></div><div class="lesson-teacher">Fadimana Topak</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">4</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Türkçe</span><span class="lesson-time">11:15 - 11:55</span></div><div class="lesson-teacher">Fadimana Topak</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">5</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Fen Bilimleri</span><span class="lesson-time">12:05 - 12:45</span></div><div class="lesson-teacher">Aydan Akgül</div></div></div>
+            <div class="badge-row"><span class="badge-dot"></span>Öğlen Arası: 55 Dakika</div>
+            <div class="lesson-row"><div class="lesson-num">6</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Fen Bilimleri</span><span class="lesson-time">13:40 - 14:20</span></div><div class="lesson-teacher">Aydan Akgül</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">7</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Seçmeli Görgü Kuralları</span><span class="lesson-time">14:30 - 15:10</span></div><div class="lesson-teacher">Adem Fesli</div></div></div>
+            <div class="lesson-row"><div class="lesson-num">8</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Görsel Sanatlar</span><span class="lesson-time">15:20 - 16:00</span></div></div></div>
+            <div class="badge-row exit"><span class="badge-dot"></span>Çıkış: 16:00</div>
+          </div>
+          <div class="panel feyza">
+            <div class="feyza-list">
+              <div class="lesson-row"><div class="lesson-num">1</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">İngilizce</span><span class="lesson-time">12:40 - 13:20</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">2</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Matematik</span><span class="lesson-time">13:30 - 14:10</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">3</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Türkçe</span><span class="lesson-time">14:20 - 15:00</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">4</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Din Kültürü</span><span class="lesson-time">15:10 - 15:50</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">5</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Görsel Sanatlar</span><span class="lesson-time">16:00 - 16:40</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
+              <div class="lesson-row"><div class="lesson-num">6</div><div class="lesson-info"><div class="lesson-line"><span class="lesson-name">Müzik</span><span class="lesson-time">16:50 - 17:30</span></div><div class="lesson-teacher">Ali Orhan Savaş</div></div></div>
             </div>
+            <div class="badge-row exit"><span class="badge-dot"></span>Çıkış: 17:30</div>
+          </div>
+
         </div>
+      </details>
+
     </div>
-</div>
 
+    <div class="holidays">
 
-    <div id="edit-modal">
-        <h3></h3>
-        <textarea id="feyza-edit-input" rows="5"></textarea>
-        <div class="buttons" style="justify-content: flex-end; margin-top: 10px;">
-            <button id="save-btn">Kaydet</button>
-            <button id="close-btn">Kapat</button>
+      <details class="day-card">
+        <summary>Dönem Takvimi</summary>
+        <div class="day-content">
+          <div class="holiday-card">
+            <div class="holiday-name">1. Dönem</div>
+            <div class="holiday-date">14 Eylül 2026 – 22 Ocak 2027</div>
+          </div>
+          <div class="holiday-card">
+            <div class="holiday-name">2. Dönem</div>
+            <div class="holiday-date">8 Şubat 2027 – 25 Haziran 2027</div>
+          </div>
         </div>
+      </details>
+
+      <details class="day-card">
+        <summary>Ara Tatiller</summary>
+        <div class="day-content">
+          <div class="holiday-card">
+            <div class="holiday-name">1. Ara Tatil</div>
+            <div class="holiday-date">16 – 20 Kasım 2026</div>
+            <div class="holiday-duration">Hafta sonlarıyla birlikte 9 gün</div>
+          </div>
+          <div class="holiday-card">
+            <div class="holiday-name">Yarıyıl (Sömestr) Tatili</div>
+            <div class="holiday-date">25 Ocak – 5 Şubat 2027</div>
+            <div class="holiday-duration">2 hafta</div>
+          </div>
+          <div class="holiday-card">
+            <div class="holiday-name">2. Ara Tatil</div>
+            <div class="holiday-date">8 – 12 Mart 2027</div>
+            <div class="holiday-duration">Ramazan Bayramı ile aynı haftaya denk geliyor</div>
+          </div>
+        </div>
+      </details>
+
+      <details class="day-card">
+        <summary>Resmi ve Dini Bayram Tatilleri</summary>
+        <div class="day-content">
+          <div class="holiday-card">
+            <div class="holiday-name">Cumhuriyet Bayramı</div>
+            <div class="holiday-date">28.10.2026 Çarşamba (öğleden sonra) – 29.10.2026 Perşembe</div>
+            <div class="holiday-duration">1,5 gün</div>
+          </div>
+          <div class="holiday-card">
+            <div class="holiday-name">Yılbaşı</div>
+            <div class="holiday-date">1 Ocak 2027 Cuma</div>
+            <div class="holiday-duration">1 gün</div>
+          </div>
+          <div class="holiday-card">
+            <div class="holiday-name">Ramazan Bayramı</div>
+            <div class="holiday-date">09.03.2027 - 11.03.2027</div>
+            <div class="holiday-duration">Arefe: 08.03.2027 Pazartesi - 11.03.2027 Perşembe</div>
+            <div class="holiday-duration">2. ara tatille birleşik</div>
+          </div>
+          <div class="holiday-card">
+            <div class="holiday-name">Ulusal Egemenlik ve Çocuk Bayramı</div>
+            <div class="holiday-date">23 Nisan 2027 Cuma</div>
+            <div class="holiday-duration">1 gün</div>
+          </div>
+          <div class="holiday-card">
+            <div class="holiday-name">Emek ve Dayanışma Günü</div>
+            <div class="holiday-date">1 Mayıs 2027 (Cumartesi)</div>
+            <div class="holiday-duration">Hafta sonuna denk geliyor</div>
+          </div>
+          <div class="holiday-card">
+            <div class="holiday-name">Kurban Bayramı</div>
+            <div class="holiday-date">16.05.2027 - 19.05.2027</div>
+            <div class="holiday-duration">Arefe: 15.05.2027 Cumartesi - 19.05.2027 Çarşamba</div>
+            <div class="holiday-duration">19 Mayıs ile birleşik</div>
+          </div>
+          <div class="holiday-card">
+            <div class="holiday-name">Atatürk'ü Anma, Gençlik ve Spor Bayramı</div>
+            <div class="holiday-date">19 Mayıs 2027 Çarşamba</div>
+            <div class="holiday-duration">Kurban Bayramı'nın son gününe denk geliyor</div>
+          </div>
+        </div>
+      </details>
+
+      <details class="day-card">
+        <summary>Yaz Tatili</summary>
+        <div class="day-content">
+          <div class="holiday-card">
+            <div class="holiday-name">Ders Yılı Sonu / Yaz Tatili Başlangıcı</div>
+            <div class="holiday-date">25 Haziran 2027</div>
+          </div>
+        </div>
+      </details>
+
+
     </div>
-    <div id="overlay"></div>
+  </div>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const nutritionBtn = document.getElementById('nutrition-btn');
-            const scheduleBtn = document.getElementById('schedule-btn');
-            const nutritionSection = document.getElementById('nutrition-section');
-            const scheduleSection = document.getElementById('schedule-section');
-            const buttons = document.querySelectorAll('.buttons button');
-            const editModal = document.getElementById('edit-modal');
-            const overlay = document.getElementById('overlay');
-            const saveBtn = document.getElementById('save-btn');
-            const closeBtn = document.getElementById('close-btn');
-            const feyzaEditInput = document.getElementById('feyza-edit-input');
-
-            function toggleSection(sectionToShow) {
-                const sections = [nutritionSection, scheduleSection];
-                sections.forEach(section => {
-                    if (section === sectionToShow) {
-                        section.style.display = section.style.display === 'block' ? 'none' : 'block';
-                    } else {
-                        section.style.display = 'none';
-                    }
-                });
-            }
-
-            function closeAllDays() {
-                document.querySelectorAll('.day-content').forEach(content => {
-                    content.style.display = 'none';
-                });
-            }
-
-            function toggleDayContent(dayElement) {
-                const content = dayElement.querySelector('.day-content');
-                if (content.style.display === 'block') {
-                    content.style.display = 'none';
-                } else {
-                    closeAllDays();
-                    content.style.display = 'block';
-                }
-            }
-
-            function toggleActiveButton(clickedButton) {
-                buttons.forEach(button => button.classList.remove('active'));
-                clickedButton.classList.add('active');
-            }
-
-            nutritionBtn.addEventListener('click', function() {
-                toggleSection(nutritionSection);
-                toggleActiveButton(nutritionBtn);
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var days = document.querySelectorAll('details.day-card');
+      days.forEach(function (day) {
+        day.addEventListener('toggle', function () {
+          if (day.open) {
+            days.forEach(function (other) {
+              if (other !== day) other.open = false;
             });
-
-            scheduleBtn.addEventListener('click', function() {
-                toggleSection(scheduleSection);
-                toggleActiveButton(scheduleBtn);
-            });
-
-            document.querySelectorAll('.day h3').forEach(day => {
-                day.addEventListener('click', function() {
-                    toggleDayContent(this.parentElement);
-                });
-            });
-
-            const openEditModal = (mealText, day) => {
-                const cleanText = mealText.replace(/<br\s*\/?>/gi, "\n").replace(/<[^>]+>/g, '');
-                feyzaEditInput.value = cleanText;
-                editModal.style.display = 'block';
-                overlay.style.display = 'block';
-                saveBtn.dataset.day = day;
-            };
-
-            const closeEditModal = () => {
-                editModal.style.display = 'none';
-                overlay.style.display = 'none';
-            };
-
-            closeBtn.addEventListener('click', closeEditModal);
-            overlay.addEventListener('click', closeEditModal);
-
-            saveBtn.addEventListener('click', function() {
-                const updatedMealText = feyzaEditInput.value;
-                const day = this.dataset.day;
-                const mealContentDiv = document.querySelector(`.lesson-content[data-day="${day}"]`);
-                mealContentDiv.innerHTML = updatedMealText;
-                closeEditModal();
-            });
-
-            document.querySelectorAll('.edit-btn').forEach((button) => {
-                button.addEventListener('click', function() {
-                    const mealText = this.previousElementSibling.innerHTML;
-                    const day = this.closest('.day').querySelector('h3').innerText;
-                    openEditModal(mealText, day);
-                });
-            });
-
-            closeAllDays();
+          }
         });
-    </script>
+      });
+
+      var viewButtons = document.querySelectorAll('.view-switch button');
+      viewButtons.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          viewButtons.forEach(function (b) { b.classList.remove('active'); });
+          btn.classList.add('active');
+          document.body.classList.remove('view-feyza', 'view-tatil');
+          if (btn.dataset.view === 'feyza') {
+            document.body.classList.add('view-feyza');
+          } else if (btn.dataset.view === 'tatil') {
+            document.body.classList.add('view-tatil');
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>
